@@ -15,3 +15,4 @@ MonoBehaviour:
   weaponPrefab: {fileID: 1232554522013583542, guid: 6a5bac519be684446b2a4ec32c81cfe1, type: 3}
   localPosition: {x: 0, y: 0, z: 0}
   localRotation: {x: 0, y: 0, z: 0}
+  slot: 1

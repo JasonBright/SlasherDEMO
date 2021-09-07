@@ -14,6 +14,6 @@ public class WeaponBuff : Buff
     public override void Execute()
     {
         var prop = GetProp<WeaponBuffProp>();
-        target.SetWeapon(prop.Prefab, prop.LocalPosition, prop.LocalRotation);
+        target.SetWeapon(prop.Prefab, prop.LocalPosition, prop.LocalRotation, prop.Slot);
     }
 }

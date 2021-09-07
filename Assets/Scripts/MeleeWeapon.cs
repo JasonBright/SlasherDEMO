@@ -7,6 +7,7 @@ public class MeleeWeapon : MonoBehaviour, IUseable
     [SerializeField] private float attackCountdown;
 
     [Header("Технические")] 
+    [SerializeField] private AnimatorOverrideController animatorOverrideController;
     [SerializeField] private TargetSearcher targetSearcher;
     
     public Animator Animator { get; set; }
@@ -29,6 +30,14 @@ public class MeleeWeapon : MonoBehaviour, IUseable
         countdown.Start(attackCountdown);
         Animator.SetTrigger("Attack");
         return true;
+    }
+
+    void Start()
+    {
+        if (animatorOverrideController != null)
+        {
+            Animator.runtimeAnimatorController = animatorOverrideController;
+        }
     }
 
     void Update()
