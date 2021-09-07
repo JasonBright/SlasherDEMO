@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.kkjamie.unity-dependency-injection": {
+      "version": "https://github.com/kkjamie/unity-dependency-injection.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "8823310b76be5c7e1625a4daaf08f05170d44476"
+    },
     "com.unity.collab-proxy": {
       "version": "1.5.7",
       "depth": 0,
