@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityDependencyInjection;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class Character : MonoBehaviour, IHitable, IContainer, IAliveable
 {
     [SerializeField] private float baseMoveSpeed;
+    [SerializeField] private float angularSpeed;
     [SerializeField] private float maxHealth;
     
     [Header("Технические")] 
     [SerializeField] private Animator animator;
     [SerializeField] private Transform rightHandContainer;
     [SerializeField] private Transform leftHandContainer;
+    [SerializeField] private CharacterController characterController;
     
     public float BaseMoveSpeed => baseMoveSpeed;
     public float AdditionalMoveSpeed { get; set; }
@@ -52,6 +55,24 @@ public class Character : MonoBehaviour, IHitable, IContainer, IAliveable
                 Direction = transform.forward
             });
         }
+    }
+
+    public void Move(Vector2 input)
+    {
+        var isInputed = input.sqrMagnitude != 0;
+
+        if (isInputed)
+        {
+            transform.Rotate(Vector3.up, input.x * angularSpeed );
+            characterController.SimpleMove(transform.forward * (input.y * GetMoveSpeed()));
+        }
+        
+        animator.SetBool("Walk", isInputed);
+    }
+
+    public float GetMoveSpeed()
+    {
+        return BaseMoveSpeed + AdditionalMoveSpeed;
     }
 
     public void SetWeapon(GameObject prefab, Vector3 localPosition, Vector3 localRotation, CharacterSlot slot)
