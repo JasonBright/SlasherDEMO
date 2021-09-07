@@ -29,6 +29,7 @@ public class MeleeWeapon : MonoBehaviour, IUseable
         
         countdown.Start(attackCountdown);
         Animator.SetTrigger("Attack");
+        Attack(target);
         return true;
     }
 
@@ -43,5 +44,11 @@ public class MeleeWeapon : MonoBehaviour, IUseable
     void Update()
     {
         countdown.Tick(Time.deltaTime);
+    }
+
+    public void Attack(IHitable target)
+    {
+        var impacter = new DamageImpacter(null);
+        target.Hit(impacter);
     }
 }
