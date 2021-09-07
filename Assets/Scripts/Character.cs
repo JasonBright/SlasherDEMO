@@ -19,10 +19,26 @@ public class Character : MonoBehaviour, IHitable
 
     private GameObject currentWeaponInstance;
 
+    [SerializeField] private WeaponBuffProp weapon;
+
     void Awake()
     {
         BuffsContainer = new BuffsContainer();
         BuffsContainer.AddBuffDependency<Character>(this);
+        
+        BuffsContainer.AddBuff(weapon.Create());
+    }
+
+    void Update()
+    {
+        if (CurrentWeapon != null)
+        {
+            CurrentWeapon.Use(new UseParameters()
+            {
+                ActiveBuffs = null,
+                Direction = transform.forward
+            });
+        }
     }
 
     public void SetWeapon(GameObject prefab, Vector3 localPosition, Vector3 localRotation)
