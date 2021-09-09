@@ -6,13 +6,11 @@ using UnityEngine;
 public class DamageImpacter : Impacter
 {
     [Inject] private IAliveable target;
-    
-    public DamageImpacter(Impacter source) : base(source)
-    {
-    }
+    [Inject] private Animator targetAnimator;
 
-    protected override void Impact()
+    public override void Execute(IHitable target)
     {
-        target.Damage( 5 );
+        this.target.Damage( 5 );
+        targetAnimator.SetTrigger("Impact");
     }
 }

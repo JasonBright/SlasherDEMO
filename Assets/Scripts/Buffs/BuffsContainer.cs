@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class BuffsContainer
 {
+    public IList<Buff> ActiveBuffs => activeBuffs.AsReadOnly();
+    
     private readonly List<Buff> activeBuffs = new List<Buff>();
 
     private IContainer container;
@@ -14,6 +16,8 @@ public class BuffsContainer
     {
         this.container = container;
     }
+
+    
 
     public void AddBuff(Buff buff)
     {

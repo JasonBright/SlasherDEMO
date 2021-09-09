@@ -13,6 +13,6 @@ public class GameRoot : MonoBehaviour
 
     public bool IsFriendly(Transform sender, IHitable target)
     {
-        return true;
+        return false;
     }
 }

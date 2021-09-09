@@ -1,4 +1,4 @@
 ﻿public interface IHitable
 {
-    public void Hit(Impacter impact);
+    public void Hit(params Impacter [] impacts);
 }

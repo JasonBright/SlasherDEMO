@@ -11,6 +11,6 @@ public interface IUseable
 
 public struct UseParameters
 {
-    public Buff[] ActiveBuffs;
+    public IList<Buff> ActiveBuffs;
     public Vector3 Direction;
 }

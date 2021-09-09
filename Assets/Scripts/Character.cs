@@ -32,6 +32,7 @@ public class Character : MonoBehaviour, IHitable, IContainer, IAliveable
     private readonly DependencyContainer dependencyContainer = new DependencyContainer();
 
     [SerializeField] private WeaponBuffProp weapon;
+    [SerializeField] private BuffProp stunAbl;
 
     void Awake()
     {
@@ -39,8 +40,13 @@ public class Character : MonoBehaviour, IHitable, IContainer, IAliveable
         
         BuffsContainer = new BuffsContainer(this);
         AddDependency<BuffsContainer>(BuffsContainer);
-        
+        AddDependency<Animator>(animator);
+
         BuffsContainer.AddBuff(weapon.Create());
+        if (stunAbl != null)
+        {
+            BuffsContainer.AddBuff(stunAbl.Create());
+        }
 
         Health = MaxHealth;
     }
@@ -51,7 +57,7 @@ public class Character : MonoBehaviour, IHitable, IContainer, IAliveable
         {
             CurrentWeapon.Use(new UseParameters()
             {
-                ActiveBuffs = null,
+                ActiveBuffs = BuffsContainer.ActiveBuffs,
                 Direction = transform.forward
             });
         }
@@ -124,10 +130,13 @@ public class Character : MonoBehaviour, IHitable, IContainer, IAliveable
         dependencyContainer.Add(dependency as T);
     }
 
-    public void Hit(Impacter impact)
+    public void Hit(params Impacter[] impacts)
     {
-        InjectTo(impact);
-        impact.Execute(this);
+        foreach (var impact in impacts)
+        {
+            InjectTo(impact);
+            impact.Execute(this);
+        }
     }
     
     public void Damage(float damage)

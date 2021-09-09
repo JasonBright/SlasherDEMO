@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MeleeWeapon : MonoBehaviour, IUseable
@@ -29,7 +30,7 @@ public class MeleeWeapon : MonoBehaviour, IUseable
         
         countdown.Start(attackCountdown);
         Animator.SetTrigger("Attack");
-        Attack(target);
+        Attack(target, parameters.ActiveBuffs.OfType<AttackModificatorBuff>().ToArray());
         return true;
     }
 
@@ -46,9 +47,10 @@ public class MeleeWeapon : MonoBehaviour, IUseable
         countdown.Tick(Time.deltaTime);
     }
 
-    public void Attack(IHitable target)
+    public void Attack(IHitable target, AttackModificatorBuff[] attackModificatorBuffs)
     {
-        var impacter = new DamageImpacter(null);
-        target.Hit(impacter);
+        var damageImpacter = new DamageImpacter();
+        var impacters = attackModificatorBuffs.Select(x => x.GetImpacter()).Where(x => x != null).Concat( new []{damageImpacter}).ToArray();
+        target.Hit(impacters);
     }
 }
