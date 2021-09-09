@@ -9,5 +9,5 @@ public interface ITickeable
     void Tick(float deltaTime);
     void AddTime(float time);
     void Start(float time);
-    void Stop();
+    void Stop(bool silentMode = false);
 }

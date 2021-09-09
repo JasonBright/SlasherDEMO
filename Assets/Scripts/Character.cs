@@ -28,6 +28,8 @@ public class Character : MonoBehaviour, IHitable, IContainer, IAliveable
     public float MaxHealth => maxHealth;
     public bool IsAlive { get; private set; }
 
+    public bool IsFreezing { get; set; } = false;
+
     private GameObject currentWeaponInstance;
     private readonly DependencyContainer dependencyContainer = new DependencyContainer();
 
@@ -53,7 +55,7 @@ public class Character : MonoBehaviour, IHitable, IContainer, IAliveable
 
     void Update()
     {
-        if (CurrentWeapon != null)
+        if (CurrentWeapon != null && !IsFreezing)
         {
             CurrentWeapon.Use(new UseParameters()
             {
@@ -61,10 +63,15 @@ public class Character : MonoBehaviour, IHitable, IContainer, IAliveable
                 Direction = transform.forward
             });
         }
+        
+        BuffsContainer.UpdateTimers(Time.deltaTime);
     }
 
     public void Move(Vector2 input)
     {
+        if (IsFreezing)
+            return;
+        
         var isInputed = input.sqrMagnitude != 0;
 
         if (isInputed)

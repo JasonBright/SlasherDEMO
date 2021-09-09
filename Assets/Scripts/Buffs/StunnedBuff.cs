@@ -14,13 +14,13 @@ public class StunnedBuff : Buff
 
     public override void Execute()
     {
-        character.enabled = false;
+        character.IsFreezing = true;
         animator.SetBool("Dizzy", true);
     }
 
     public override void Stop()
     {
-        character.enabled = true;
+        character.IsFreezing = false;
         animator.SetBool("Dizzy", false);
     }
 }

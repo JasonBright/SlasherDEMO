@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class Countdown : ITickeable
 {
@@ -10,7 +11,11 @@ public class Countdown : ITickeable
     public bool IsElapsed => timeLeft.HasValue == false || timeLeft <= 0;
 
     private float? timeLeft;
-    
+
+    public float TimeLeft => timeLeft ?? 0;
+
+    public string deb;
+
     public void Tick(float deltaTime)
     {
         timeLeft -= deltaTime;
@@ -41,9 +46,12 @@ public class Countdown : ITickeable
         timeLeft = time;
     }
 
-    public void Stop()
+    public void Stop(bool silentMode = false)
     {
         timeLeft = null;
-        Elapsed?.Invoke();
+        if (silentMode == false)
+        {
+            Elapsed?.Invoke();
+        }
     }
 }
